@@ -4,3 +4,62 @@
 ✦ theme-light — класс светлой темы
 ✦ не забудьте описать стили для изменения темы через медизапрос пользовательских предпочтений
 */
+
+.theme-dark{
+    /*background-color*/
+    --Themes-background: #000;
+    /*text-color*/
+    --Themes-mainColor: #00CC14;
+
+    /*Gradient-first*/
+    --gradient-first: #007F0C;
+    /*Gradient-second*/
+    --gradient-second: #004306;
+    /*Gradient-grid*/
+    --gradient-grid: #000;
+    
+    /*card-title font-weight*/
+    --title-FW: 785; 
+    /*card-text font-weight*/
+    --text-FW: 465;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root{
+        /*background-color*/
+        --Themes-background: #000;
+        /*text-color*/
+        --Themes-mainColor: #00CC14;
+    
+        /*Gradient-first*/
+        --gradient-first: #007F0C;
+        /*Gradient-second*/
+        --gradient-second: #004306;
+        /*Gradient-grid*/
+        --gradient-grid: #000;
+        
+        /*card-title font-weight*/
+        --title-FW: 785; 
+        /*card-text font-weight*/
+        --text-FW: 465;
+    }
+}
+
+.theme-light{
+    /*background-color*/
+    --Themes-background: #fff;
+    /*text-color*/
+    --Themes-mainColor: #000;
+
+    /*Gradient-first*/
+    --gradient-first: #E7E7E7;
+    /*Gradient-second*/
+    --gradient-second: #1A1A1A;
+    /*Gradient-grid*/
+    --gradient-grid: lightgray;
+    
+    /*card-title font-weight*/
+    --title-FW: 700; 
+    /*card-text font-weight*/
+    --text-FW: 400;
+}

@@ -6,15 +6,557 @@
 ✦ like-icon — для svg-иконки анимированного сердца
 ✦ card__like-button — для кнопки Like рядом с иконкой
 ✦ card__icon-button — для кнопки, оборачивающей иконку
-✦ card__icon-button — для кнопки, оборачивающей иконку
 ✦ is-liked — для обозначения состояния лайкнутой иконки в виде сердца
 ✦ button__text — для обозначения текстового элемента внутри кнопки
 
-Кроме этого, не меняйте HTML переключателя тем. Его разметка также гарантирует работу своего скрипта.
-
-*/
+Кроме этого, не меняйте HTML переключателя тем. Его разметка также гарантирует работу своего скрипта.*/
 
 .page {
   min-inline-size: 320px;
   min-block-size: 100dvb;
+  background-color: var(--Themes-background);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: center;
+
+  position: relative;
+  z-index: 1;
+}
+
+.page::before {
+  content: "";
+
+  background: linear-gradient(
+    to bottom,
+    var(--gradient-first) 0%,
+    var(--gradient-second) 100%
+  );
+
+  height: 960px;
+
+  position: absolute;
+  z-index: -2;
+
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.page::after {
+  content: "";
+
+  background: repeating-linear-gradient(
+      to bottom,
+      var(--gradient-grid) 0px,
+      var(--gradient-grid) 2px,
+      transparent 2px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      to right,
+      var(--gradient-grid) 0px,
+      var(--gradient-grid) 2px,
+      transparent 2px,
+      transparent 4px
+    );
+
+  height: 960px;
+
+  position: absolute;
+  z-index: -1;
+
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.header {
+  background: var(--Themes-background);
+  font-family: var(--header-font);
+  font-weight: 400;
+  color: var(--Themes-mainColor);
+  text-transform: uppercase;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  border: 2px solid var(--Themes-mainColor, #000);
+
+  height: clamp(20.438rem, 3.756vw + 19.557rem, 22.938rem);
+  width: clamp(23.438rem, 30.516vw + 16.285rem, 43.75rem);
+
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.header__title {
+  margin-top: clamp(7.5rem, 1.502vw + 7.148rem, 8.5rem);
+  font-size: clamp(3.0625rem, 2.7104rem + 1.5023vw, 4.0625rem);
+}
+
+.header__title-about {
+  font-size: clamp(0.875rem, 0.6769rem + 0.8451vw, 1.4375rem);
+}
+
+.theme-menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  margin-top: 5px;
+
+  font-size: 14px;
+}
+
+.theme-menu__item {
+  position: relative; /*Для "качающейся" стрелочки*/
+  left: 10px;
+}
+
+.theme-menu__button {
+  background-color: inherit;
+  border: none;
+  text-transform: uppercase;
+  position: relative; /*Для замены слов и подчеркивающей линии*/
+}
+
+/*Подчеркивающая линия*/
+.theme-menu__button::before {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--Themes-mainColor);
+  transform-origin: 0%;
+  transform: scaleX(0);
+}
+
+.theme-menu__button:hover::before {
+  transform: scaleX(1); /* При ховере масштабировать до 1 */
+  transition: transform 0.3s ease;
+  opacity: 0.6;
+}
+
+.theme-menu__button:focus-visible:before {
+  transform: scaleX(1); /* При фокусе масштабировать до 1 */
+  transition: transform 0.3s ease;
+  opacity: 0.6;
+}
+
+/*Постепенная прозрачность текста*/
+.theme-menu__button:hover {
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+/*При состоянии focus написать "Хорошо" "*/
+.theme-menu__button:focus {
+  outline: none;
+}
+
+.theme-menu__button:focus-visible {
+  font-size: 0;
+}
+
+.theme-menu__button:focus-visible::after {
+  content: "ХОРОШО";
+  font-size: 14px;
+
+  opacity: 0.6;
+}
+
+/*Выбранная тема*/
+.theme-menu__button:disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/*Качающаяся стрелка у выбранной темы*/
+.theme-menu__button:disabled::after {
+  content: "▶";
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  left: -26px;
+
+  animation: swing 1s ease-in-out infinite;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 47px;
+
+  width: clamp(23.438rem, 30.516vw + 16.285rem, 43.75rem);
+
+  background-color: var(--Themes-background);
+  color: var(--Themes-mainColor, #000);
+
+  font-family: var(--main-font);
+  font-size: 18px;
+}
+
+.section:nth-last-child(1) {
+  margin-bottom: 0;
+}
+
+.section__title {
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding: 5px 24px 5px 10px;
+  font-weight: var(--title-FW);
+  font-size: 18px;
+  border: 2px solid var(--Themes-mainColor, #000);
+  background-color: var(--Themes-background);
+}
+
+.section__text {
+  font-weight: var(--text-FW);
+}
+
+/*Карточка с картинкой*/
+.section__article {
+  position: relative;
+  object-fit: cover;
+  object-position: center;
+
+  /*Для фильтров*/
+  overflow: hidden;
+
+  width: clamp(23.438rem, 30.516vw + 16.285rem, 43.75rem);
+  height: clamp(23.25rem, 30.329vw + 16.142rem, 43.438rem);
+
+  border-left: 2px solid var(--Themes-mainColor, #000);
+  border-right: 2px solid var(--Themes-mainColor, #000);
+}
+
+/*Картинка внутри*/
+.section__image {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+/*watermark*/
+.section__article::before {
+  content: "";
+
+  color: var(--Themes-mainColor);
+  -webkit-text-stroke: 1px var(--Themes-background);
+
+  font-family: var(--header-font);
+  font-size: 14px;
+  font-weight: 700;
+  opacity: 0.5;
+
+  position: absolute;
+  z-index: 1;
+  top: 25px;
+  right: clamp(0.625rem, 1.408vw + 0.295rem, 1.563rem);
+}
+
+section:nth-child(1) .section__article::before {
+  content: "</html>";
+  text-transform: uppercase;
+}
+section:nth-child(2) .section__article::before {
+  content: "</html>";
+  text-transform: uppercase;
+}
+section:nth-child(2) .section__article .section__image {
+  filter: grayscale(0.8);
+}
+section:nth-child(3) .section__article::before {
+  content: "<css>";
+  text-transform: uppercase;
+}
+section:nth-child(3) .section__article .section__image {
+  filter: brightness(200%) contrast(200%);
+}
+section:nth-child(4) .section__article::before {
+  content: "<desigions>";
+}
+section:nth-child(4) .section__article .section__image {
+  filter: hue-rotate(50deg);
+}
+section:nth-child(5) .section__article::before {
+  content: "care";
+}
+section:nth-child(5) .section__article .section__image {
+  filter: invert(0.7) contrast(200%);
+}
+section:nth-child(6) .section__article::before {
+  content: "<support>";
+}
+section:nth-child(6) .section__article .section__image {
+  filter: sepia(80%);
+}
+section:nth-child(7) .section__article::before {
+  content: "<lifes-style: none;>";
+}
+section:nth-child(7) .section__article .section__image {
+  filter: blur(1.5rem);
+}
+section:nth-child(8) .section__article::before {
+  content: "<experience>";
+}
+section:nth-child(8) .section__article .section__image {
+  filter: blur(0.1rem) hue-rotate(90deg) brightness(150%) contrast(40%);
+}
+
+.section__about {
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+  padding: 25px;
+  border: 2px solid var(--Themes-mainColor, #000);
+}
+
+.card__like-section {
+  margin-left: auto;
+  display: flex;
+}
+
+.card__icon-button {
+  width: 39px;
+  height: 38px;
+  border: none;
+  background-color: var(--Themes-background, #fff);
+  display: flex;
+  justify-items: left;
+}
+
+.like-icon {
+  width: 100%;
+  height: 100%;
+}
+
+.card__like-button {
+  width: 130px;
+  height: 38px;
+
+  border: 2px solid var(--Themes-mainColor, #000);
+
+  background: var(--Themes-background);
+
+  position: relative;
+}
+
+.button__text {
+  position: relative;
+  font-family: var(--header-font);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--Themes-mainColor);
+}
+
+.card__like-button:focus {
+  outline: none;
+}
+
+.card__like-button:focus-visible {
+  box-shadow: 2px 2px 0px 0px var(--Themes-mainColor);
+  transition: box-shadow 0.3s ease;
+}
+
+/*Заполнение*/
+.card__like-button::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+
+  background-color: var(--Themes-mainColor);
+  transform-origin: 0%;
+  transform: scaleX(0);
+}
+
+.card__like-button:hover::before {
+  transform: scaleX(1); /* При ховере масштабировать до 1 */
+  transition: transform 0.3s ease;
+}
+
+.card__like-button:hover .button__text {
+  color: var(--Themes-background);
+  transition: color 0.3s ease;
+}
+
+/*Подвал*/
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 50px 180px;
+}
+
+/*Дискета*/
+.footer__floppy {
+  width: 21px;
+  height: 21px;
+  fill: var(--Themes-mainColor);
+  z-index: 1;
+}
+
+.footer__button {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding:13px;
+
+  width: clamp(19.125rem, 3.099vw + 18.399rem, 21.188rem);
+
+  border: 2px solid var(--Themes-mainColor, #000);
+  background: var(--Themes-background);
+
+  position: relative;
+}
+
+.footer__button:focus {
+  outline: none;
+}
+
+.footer__button:focus-visible {
+  box-shadow: 2px 2px 0px 0px var(--Themes-mainColor);
+  transition: box-shadow 0.3s ease;
+}
+
+/*Заполнение*/
+.footer__button::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+
+  background-color: var(--Themes-mainColor);
+  transform-origin: 0%;
+  transform: scaleX(0);
+}
+
+.footer__button:hover::before {
+  transform: scaleX(1); /* При ховере масштабировать до 1 */
+  transition: transform 0.3s ease;
+}
+
+.footer__button:hover .button__text {
+  color: var(--Themes-background);
+  transition: color 0.3s ease;
+}
+
+.footer__button:hover .floppy {
+  fill: var(--Themes-background);
+  transition: fill 0.1s ease;
+  position: relative;
+}
+
+.dialog{
+  width: clamp(21.313rem, 1.502vw + 20.96rem, 22.313rem);
+  height: 193px;
+
+  font-family: var(--header-font);
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--Themes-mainColor);
+  text-transform: uppercase;
+
+  border: 2px solid var(--Themes-mainColor, #000);
+  background-color: var(--Themes-background);
+  padding: 30px;
+}
+
+.dialog__about{
+  display: flex;
+  gap:20px;
+  align-items: center;
+}
+
+.dialog__about-text{
+  line-height: 150%;
+}
+
+.dialog[open]{
+  display: flex;
+  flex-direction: column;
+  gap:30px;
+}
+
+dialog::backdrop {
+  background-color: rgb(0 0 0 / 0.3);
+  backdrop-filter: blur(7px);
+}
+
+.dialog__floppy{
+  height: 39px;
+  width: 39px;
+  flex-shrink: 0;
+
+  fill:var(--Themes-mainColor);
+}
+
+.dialog__button{
+  border: 2px solid var(--Themes-mainColor, #000);
+  width: clamp(16.063rem, 3.38vw + 15.27rem, 18.313rem);
+  background-color: var(--Themes-background);
+  height: 40px;
+
+  position: relative;
+}
+
+.dialog__button::before{
+  content: "";
+
+  position: absolute;
+  top: 0;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+
+  background-color: var(--Themes-mainColor);
+  transform-origin: 0%;
+  transform: scaleX(0);
+}
+
+.dialog__button:hover::before {
+  transform: scaleX(1); /* При ховере масштабировать до 1 */
+  transition: transform 0.3s ease;
+}
+
+.dialog__button:hover .button__text {
+  color: var(--Themes-background);
+  transition: color 0.3s ease;
+}
+
+.dialog__button:focus {
+  outline: none;
+}
+
+.dialog__button:focus-visible {
+  box-shadow: 2px 2px 0px 0px var(--Themes-mainColor);
+  transition: box-shadow 0.3s ease;
+}
+
+@media screen and (max-width: 1181px) {
+  .footer__floppy{
+    width: 28px;
+    height: 28px;
+  }
+
+  .dialog{
+    height: 195px;
+    padding: 30px 40px;
+  }
+
 }

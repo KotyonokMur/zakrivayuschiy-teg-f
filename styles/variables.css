@@ -1,1 +1,26 @@
-/* В этом файле будут храниться все значения переменных в исходном состоянии, а так же их изменения в зависимости от ширины устройства */
+/* В этом файле будут храниться все значения переменных в исходном состоянии,
+ а так же их изменения в зависимости от ширины устройства */
+
+:root{
+    /*background-color*/
+    --Themes-background: #fff;
+    /*text-color*/
+    --Themes-mainColor: #000;
+    
+    /*card-title font-weight*/
+    --title-FW: 700; 
+    /*card-text font-weight*/
+    --text-FW: 400;
+
+    /*Gradient-first*/
+    --gradient-first: #E7E7E7;
+    /*Gradient-second*/
+    --gradient-second: #1A1A1A;
+    /*Gradient-grid*/
+    --gradient-grid: lightgray;
+
+    /*Header FF*/
+    --header-font: 'PressStart2P', monospace;
+    /*Page FF*/
+    --main-font:'Inter-Variable', monospace;
+}
