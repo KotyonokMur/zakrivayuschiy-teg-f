@@ -14,61 +14,31 @@
 .page {
   min-inline-size: 320px;
   min-block-size: 100dvb;
-  background-color: var(--Themes-background);
+  background-color: var(--Themes-background,#fff);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   align-items: center;
 
-  position: relative;
-  z-index: 1;
-}
-
-.page::before {
-  content: "";
-
-  background: linear-gradient(
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--gradient-grid) 0px,
+    var(--gradient-grid) 2px,
+    transparent 2px,
+    transparent 4px
+  ),
+  repeating-linear-gradient(
+    to right,
+    var(--gradient-grid) 0px,
+    var(--gradient-grid) 2px,
+    transparent 2px,
+    transparent 4px
+  ),
+  linear-gradient(
     to bottom,
     var(--gradient-first) 0%,
     var(--gradient-second) 100%
   );
-
-  height: 960px;
-
-  position: absolute;
-  z-index: -2;
-
-  top: 0;
-  left: 0;
-  right: 0;
-}
-
-.page::after {
-  content: "";
-
-  background: repeating-linear-gradient(
-      to bottom,
-      var(--gradient-grid) 0px,
-      var(--gradient-grid) 2px,
-      transparent 2px,
-      transparent 4px
-    ),
-    repeating-linear-gradient(
-      to right,
-      var(--gradient-grid) 0px,
-      var(--gradient-grid) 2px,
-      transparent 2px,
-      transparent 4px
-    );
-
-  height: 960px;
-
-  position: absolute;
-  z-index: -1;
-
-  top: 0;
-  left: 0;
-  right: 0;
 }
 
 .header {
@@ -138,37 +108,6 @@
   transition: transform 0.3s ease;
 }
 
-.theme-menu__button:hover::before {
-  transform: scaleX(1); /* При ховере масштабировать до 1 */
-  opacity: 0.6;
-}
-
-.theme-menu__button:focus-visible:before {
-  transform: scaleX(1); /* При фокусе масштабировать до 1 */
-  opacity: 0.6;
-}
-
-/*Постепенная прозрачность текста*/
-.theme-menu__button:hover {
-  opacity: 0.6;
-}
-
-/*При состоянии focus написать "Хорошо" "*/
-.theme-menu__button:focus {
-  outline: none;
-}
-
-.theme-menu__button:focus-visible {
-  font-size: 0;
-}
-
-.theme-menu__button:focus-visible::after {
-  content: "ХОРОШО";
-  font-size: 14px;
-
-  opacity: 0.6;
-}
-
 /*Выбранная тема*/
 .theme-menu__button:disabled {
   opacity: 0.6;
@@ -182,6 +121,7 @@
   width: 25px;
   height: 25px;
   left: -26px;
+  top:0;
 }
 
 .section {
@@ -198,30 +138,21 @@
   font-size: 18px;
 }
 
-.section:nth-last-child(1) {
-  margin-bottom: 0;
-}
-
 .section__title {
-  padding-left: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
   padding: 5px 24px 5px 10px;
-  font-weight: var(--title-FW);
-  font-size: 18px;
-  border: 2px solid var(--Themes-mainColor, #000);
-  background-color: var(--Themes-background);
+  font-size: 18px; 
+  border: 2px solid var(--Themes-mainColor, #000); 
+  background-color: var(--Themes-background); 
+  font-variation-settings: 'wght' var(--title-FW);
 }
 
 .section__text {
-  font-weight: var(--text-FW);
+  font-variation-settings: 'wght' var(--text-FW);
 }
 
 /*Карточка с картинкой*/
-.section__article {
+.section__intro {
   position: relative;
-  object-fit: cover;
-  object-position: center;
 
   /*Для фильтров*/
   overflow: hidden;
@@ -237,16 +168,18 @@
 .section__image {
   height: 100%;
   width: 100%;
+  object-fit: cover;
+  object-position: center;
   position: relative;
 }
 
 /*watermark*/
-.section__article::before {
+.section__intro::before {
   content: "";
 
   color: var(--Themes-mainColor);
-  -webkit-text-stroke: 1px var(--Themes-background);
-
+  /*Ниже проверка на "-webkit-text-stroke", иначе применяется text-shadow*/
+  text-shadow: 0px 0px 2px var(--Themes-background);
   font-family: var(--header-font);
   font-size: 14px;
   font-weight: 700;
@@ -264,6 +197,56 @@
   gap: 27px;
   padding: 25px;
   border: 2px solid var(--Themes-mainColor, #000);
+}
+
+/*Уникализация карточек*/
+article:nth-child(1) .section__intro::before {
+  content: "</html>";
+  text-transform: uppercase;
+}
+article:nth-child(2) .section__intro::before {
+  content: "</html>";
+  text-transform: uppercase;
+}
+article:nth-child(2) .section__intro .section__image {
+  filter: grayscale(0.8);
+}
+article:nth-child(3) .section__intro::before {
+  content: "<css>";
+  text-transform: uppercase;
+}
+article:nth-child(3) .section__intro .section__image {
+  filter: brightness(200%) contrast(200%);
+}
+article:nth-child(4) .section__intro::before {
+  content: "<desigions>";
+}
+article:nth-child(4) .section__intro .section__image {
+  filter: hue-rotate(50deg);
+}
+article:nth-child(5) .section__intro::before {
+  content: "care";
+}
+article:nth-child(5) .section__intro .section__image {
+  filter: invert(0.7) contrast(200%);
+}
+article:nth-child(6) .section__intro::before {
+  content: "<support>";
+}
+article:nth-child(6) .section__intro .section__image {
+  filter: sepia(80%);
+}
+article:nth-child(7) .section__intro::before {
+  content: "<lifes-style: none;>";
+}
+article:nth-child(7) .section__intro .section__image {
+  filter: blur(1.5rem);
+}
+article:nth-child(8) .section__intro::before {
+  content: "<experience>";
+}
+article:nth-child(8) .section__intro .section__image {
+  filter: blur(0.1rem) hue-rotate(90deg) brightness(150%) contrast(40%);
 }
 
 .card__like-section {
@@ -288,70 +271,11 @@
   height: 100%;
 }
 
-/*focus*/
-.card__icon-button:focus {
-  border: none;
-}
-
-.card__icon-button:focus-visible {
-  outline: 2px solid var(--Themes-mainColor, #000);
-}
-
-/*hover*/
-.card__icon-button:hover .heart__core {
-  opacity: 1;
-  transition: opacity 0.3s linear;
-}
-
-.card__icon-button:hover .heart__main-body {
-  opacity: 1;
-  transition: opacity 0.5s linear;
-  transition-delay: 0.05s;
-}
-
-/*active*/
-.card__icon-button:active .heart__core {
-  fill: red;
-  transition: fill 0.3s linear;
-}
-
-.card__icon-button:active .heart__main-body {
-  fill: red;
-  transition: fill 0.3s linear;
-  transition-delay: 0.05s;
-}
-
-/*Click animation*/
-/*Вспышка и увеличение в медиазапросе ниже*/
-
-/*Ядро*/
-.like-icon.is-liked .heart__core {
-  fill: red;
-  opacity: 1;
-  transition: fill 0.3s linear;
-}
-
-/*Тело*/
-.like-icon.is-liked .heart__main-body {
-  opacity: 1;
-  fill: red;
-  transition: fill 0.3s linear;
-  transition-delay: 0.05s;
-}
-
-/*Контур*/
-.like-icon.is-liked .heart__contour {
-  opacity: 1;
-  fill: red;
-  transition: fill 0.3s linear;
-  transition-delay: 0.05s;
-}
-
 /*Переменные внутри svg файла*/
 .heart__contour {
   fill: var(--Themes-mainColor);
   opacity: 1;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.1s linear;
 }
 
 .heart__main-body {
@@ -363,7 +287,7 @@
 .heart__core {
   fill: var(--Themes-mainColor);
   opacity: 0;
-  transition: opacity 0.5s linear;
+  transition: opacity 0.3s linear;
   transition-delay: 0.03s;
 }
 
@@ -376,14 +300,6 @@
 .card__like-button {
   width: 130px;
   height: 38px;
-
-  border: 2px solid var(--Themes-mainColor, #000);
-
-  background: var(--Themes-background);
-
-  position: relative;
-
-  transition: box-shadow 0.3s ease;
 }
 
 .button__text {
@@ -394,95 +310,12 @@
   color: var(--Themes-mainColor);
 }
 
-.card__like-button:focus {
-  outline: none;
-}
-
-.card__like-button:focus-visible {
-  box-shadow: 2px 2px 0px 0px var(--Themes-mainColor);
-}
-
-/*Заполнение*/
-.card__like-button::before {
-  content: "";
-
-  position: absolute;
-  top: 0;
-  bottom: 0px;
-  left: 0;
-  right: 0;
-
-  background-color: var(--Themes-mainColor);
-  transform-origin: 0%;
-  transform: scaleX(0);
-
-  transition: transform 0.3s ease;
-}
-
-.card__like-button:hover::before {
-  transform: scaleX(1); /* При ховере масштабировать до 1 */
-}
-
-.card__like-button:hover .button__text {
-  color: var(--Themes-background);
-}
-
-/*Уникализация секций*/
-section:nth-child(1) .section__article::before {
-  content: "</html>";
-  text-transform: uppercase;
-}
-section:nth-child(2) .section__article::before {
-  content: "</html>";
-  text-transform: uppercase;
-}
-section:nth-child(2) .section__article .section__image {
-  filter: grayscale(0.8);
-}
-section:nth-child(3) .section__article::before {
-  content: "<css>";
-  text-transform: uppercase;
-}
-section:nth-child(3) .section__article .section__image {
-  filter: brightness(200%) contrast(200%);
-}
-section:nth-child(4) .section__article::before {
-  content: "<desigions>";
-}
-section:nth-child(4) .section__article .section__image {
-  filter: hue-rotate(50deg);
-}
-section:nth-child(5) .section__article::before {
-  content: "care";
-}
-section:nth-child(5) .section__article .section__image {
-  filter: invert(0.7) contrast(200%);
-}
-section:nth-child(6) .section__article::before {
-  content: "<support>";
-}
-section:nth-child(6) .section__article .section__image {
-  filter: sepia(80%);
-}
-section:nth-child(7) .section__article::before {
-  content: "<lifes-style: none;>";
-}
-section:nth-child(7) .section__article .section__image {
-  filter: blur(1.5rem);
-}
-section:nth-child(8) .section__article::before {
-  content: "<experience>";
-}
-section:nth-child(8) .section__article .section__image {
-  filter: blur(0.1rem) hue-rotate(90deg) brightness(150%) contrast(40%);
-}
-
-/*Подвал*/
+/*Секция с кнопкой "Сохранить на память"*/
 .footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 50px 180px;
+  margin-bottom: 50px;
 }
 
 /*Дискета*/
@@ -493,6 +326,8 @@ section:nth-child(8) .section__article .section__image {
   z-index: 1;
 }
 
+/*Кнопка "Сохранить на память"*/
+
 .footer__button {
   display: flex;
   justify-content: center;
@@ -502,56 +337,10 @@ section:nth-child(8) .section__article .section__image {
   padding: 13px;
 
   width: clamp(19.125rem, 3.099vw + 18.399rem, 21.188rem);
-
-  border: 2px solid var(--Themes-mainColor, #000);
-  background: var(--Themes-background);
-
-  position: relative;
-}
-
-.footer__button:focus {
-  outline: none;
-}
-
-.footer__button:focus-visible {
-  box-shadow: 2px 2px 0px 0px var(--Themes-mainColor);
-}
-
-/*Заполнение*/
-.footer__button::before {
-  content: "";
-
-  position: absolute;
-  top: 0;
-  bottom: 0px;
-  left: 0;
-  right: 0;
-
-  background-color: var(--Themes-mainColor);
-  transform-origin: 0%;
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
-
-.footer__button:hover::before {
-  transform: scaleX(1); /* При ховере масштабировать до 1 */
-  transition: transform 0.3s ease;
-}
-
-.footer__button:hover .button__text {
-  color: var(--Themes-background);
-  transition: color 0.3s ease;
-}
-
-.footer__button:hover .floppy {
-  fill: var(--Themes-background);
-  transition: fill 0.1s ease;
-  position: relative;
 }
 
 .dialog {
   width: clamp(21.313rem, 1.502vw + 20.96rem, 22.313rem);
-  height: 193px;
 
   font-family: var(--header-font);
   font-weight: 400;
@@ -562,6 +351,8 @@ section:nth-child(8) .section__article .section__image {
   border: 2px solid var(--Themes-mainColor, #000);
   background-color: var(--Themes-background);
   padding: 30px;
+
+  overflow: hidden;
 }
 
 .dialog__about {
@@ -581,8 +372,7 @@ section:nth-child(8) .section__article .section__image {
 }
 
 dialog::backdrop {
-  background-color: rgb(0 0 0 / 0.3);
-  backdrop-filter: blur(7px);
+  background-color: rgba(0, 0, 0, 0.75);
 }
 
 .dialog__floppy {
@@ -594,47 +384,15 @@ dialog::backdrop {
 }
 
 .dialog__button {
-  border: 2px solid var(--Themes-mainColor, #000);
   width: clamp(16.063rem, 3.38vw + 15.27rem, 18.313rem);
-  background-color: var(--Themes-background);
   height: 40px;
-
   text-transform: inherit;
-  position: relative;
 }
 
-.dialog__button::before {
-  content: "";
-
-  position: absolute;
-  top: 0;
-  bottom: 0px;
-  left: 0;
-  right: 0;
-
-  background-color: var(--Themes-mainColor);
-  transform-origin: 0%;
-  transform: scaleX(0);
-
-  transition: transform 0.3s ease;
-}
-
-.dialog__button:hover::before {
-  transform: scaleX(1); /* При ховере масштабировать до 1 */
-}
-
-.dialog__button:hover .button__text {
-  color: var(--Themes-background);
-  transition: color 0.3s ease;
-}
-
-.dialog__button:focus {
-  outline: none;
-}
-
-.dialog__button:focus-visible {
-  box-shadow: 2px 2px 0px 0px var(--Themes-mainColor);
-  transition: box-shadow 0.3s ease;
+@supports (-webkit-text-stroke: 1px var(--Themes-background)){
+  .section__intro::before{
+    -webkit-text-stroke: 1px var(--Themes-background);
+  }
 }
 
 @media screen and (max-width: 1181px) {
@@ -645,26 +403,5 @@ dialog::backdrop {
 
   .dialog {
     padding-left: 40px;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  /*Качающаяся стрелка у выбранной темы*/
-  .theme-menu__button:disabled::after {
-    animation: swing 1s ease-in-out infinite;
-  }
-
-  /*Масшатибрование сердца*/
-  .like-icon.is-liked {
-    animation: scaleHeart 0.3s ease-in;
-    animation-delay: 0.2s;
-  }
-
-  /*Вспышка искр*/
-  .like-icon.is-liked .heart__sparks {
-    fill: red;
-    opacity: 0;
-    animation: sparkFlash 0.3s ease-in;
-    animation-delay: 0.3s;
   }
 }

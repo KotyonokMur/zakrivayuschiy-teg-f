@@ -13,7 +13,9 @@
 Кроме этого, не меняйте HTML переключателя тем. Его разметка также гарантирует работу своего скрипта.
 */
 
-/*Покачивание стрелки в header_menu*/
+/*Анимация theme menu*/
+
+/*Покачивание стрелки в theme_menu*/
 @keyframes swing {
   0%,
   100% {
@@ -22,6 +24,138 @@
   50% {
     transform: translateX(4px);
   }
+}
+
+.theme-menu__button:hover::before {
+  transform: scaleX(1);
+  opacity: 0.6;
+}
+
+.theme-menu__button:focus-visible:before {
+  transform: scaleX(1);
+  opacity: 0.6;
+}
+
+/*Постепенная прозрачность текста*/
+.theme-menu__button:hover {
+  opacity: 0.6;
+}
+
+/*При состоянии focus написать "Хорошо" "*/
+.theme-menu__button:focus {
+  outline: none;
+}
+
+.theme-menu__button:focus-visible {
+  opacity: 0.6;
+}
+
+/*Все основные кнопки на странице*/
+.button-style{
+  border: 2px solid var(--Themes-mainColor, #000);
+  background: var(--Themes-background);
+  position: relative;
+  transition: box-shadow 0.3s ease;
+}
+
+.button-style:focus{
+  outline: none;
+}
+
+.button-style:focus-visible {
+  box-shadow: 2px 2px 0px 0px var(--Themes-mainColor);
+}
+
+.button-style::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+
+  background-color: var(--Themes-mainColor);
+  transform-origin: 0%;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.button-style:hover::before {
+  transform: scaleX(1);
+  transition: transform 0.3s ease;
+}
+
+.button-style:hover .button__text {
+  color: var(--Themes-background);
+  transition: color 0.3s ease;
+}
+
+.button-style:hover .floppy {
+  fill: var(--Themes-background);
+  transition: fill 0.1s ease;
+  position: relative;
+}
+
+/*Анимация card__icon (Сердечко)*/
+/*Искры и увеличение в медиазапросе ниже (Пользовательские приоритеты)*/
+
+/*focus*/
+.card__icon-button:focus {
+  border: none;
+}
+
+.card__icon-button:focus-visible {
+  outline: 2px solid var(--Themes-mainColor, #000);
+}
+
+/*hover*/
+.card__icon-button:hover .heart__core {
+  opacity: 1;
+  transition: opacity 0.3s linear;
+}
+
+.card__icon-button:hover .heart__main-body {
+  opacity: 1;
+  transition: opacity 0.3s linear;
+  transition-delay: 0.05s;
+}
+
+/*active*/
+.card__icon-button:active .heart__core {
+  fill: red;
+  transition: fill 0.3s linear;
+}
+
+.card__icon-button:active .heart__main-body {
+  fill: red;
+  transition: fill 0.3s linear;
+  transition-delay: 0.05s;
+}
+
+/*Click animation*/
+
+/*Ядро*/
+.like-icon.is-liked .heart__core {
+  fill: red;
+  opacity: 1;
+  transition: fill 0.3s linear;
+}
+
+/*Тело*/
+.like-icon.is-liked .heart__main-body {
+  opacity: 1;
+  fill: red;
+  transition: fill 0.3s linear;
+  transition-delay: 0.05s;
+}
+
+/*Контур*/
+.like-icon.is-liked .heart__contour {
+  opacity: 1;
+  fill: red;
+  transition: fill 0.3s linear;
+  transition-delay: 0.06s;
 }
 
 /*вспышка искр*/
@@ -41,5 +175,28 @@
   }
   50%  {
     transform: scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /*Качающаяся стрелка у выбранной темы*/
+  .theme-menu__button:disabled::after {
+    animation: swing 1s ease-in-out infinite;
+  }
+
+  /*Масшатибрование сердца*/
+  .like-icon.is-liked {
+    animation: scaleHeart 0.3s ease-in;
+    animation-delay: 0.1s;
+    animation-direction: alternate;
+  }
+
+  /*Вспышка искр*/
+  .like-icon.is-liked .heart__sparks {
+    fill: red;
+    opacity: 0;
+    animation: sparkFlash 0.3s ease-in;
+    animation-delay: 0.3s;
+    animation-direction: alternate;
   }
 }

@@ -20,7 +20,7 @@
     --gradient-grid: lightgray;
 
     /*Header FF*/
-    --header-font: 'PressStart2P', monospace;
+    --header-font: 'PressStart2P', fantasy;
     /*Page FF*/
     --main-font:'Inter-Variable', monospace;
 }
