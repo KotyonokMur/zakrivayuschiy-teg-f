@@ -15,10 +15,31 @@
 
 /*Покачивание стрелки в header_menu*/
 @keyframes swing {
-    0%, 100% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(4px);
-    }
+  0%,
+  100% {
+    transform: translateX(0);
   }
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+/*вспышка искр*/
+@keyframes sparkFlash {
+  0%,100% {
+    opacity: 0;
+  }
+  50%  {
+    opacity: 1;
+  }
+}
+
+/*Увеличение всей иконки*/
+@keyframes scaleHeart {
+  0%,100% {
+    transform: scale(1);
+  }
+  50%  {
+    transform: scale(1.1);
+  }
+}

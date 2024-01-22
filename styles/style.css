@@ -121,37 +121,36 @@
   border: none;
   text-transform: uppercase;
   position: relative; /*Для замены слов и подчеркивающей линии*/
+  transition: opacity 0.3s ease;
 }
 
 /*Подчеркивающая линия*/
 .theme-menu__button::before {
   content: "";
   position: absolute;
-  bottom: -1px;
+  bottom: -4px;
   left: 0;
   right: 0;
   height: 2px;
   background-color: var(--Themes-mainColor);
   transform-origin: 0%;
   transform: scaleX(0);
+  transition: transform 0.3s ease;
 }
 
 .theme-menu__button:hover::before {
   transform: scaleX(1); /* При ховере масштабировать до 1 */
-  transition: transform 0.3s ease;
   opacity: 0.6;
 }
 
 .theme-menu__button:focus-visible:before {
   transform: scaleX(1); /* При фокусе масштабировать до 1 */
-  transition: transform 0.3s ease;
   opacity: 0.6;
 }
 
 /*Постепенная прозрачность текста*/
 .theme-menu__button:hover {
   opacity: 0.6;
-  transition: opacity 0.3s ease;
 }
 
 /*При состоянии focus написать "Хорошо" "*/
@@ -183,8 +182,6 @@
   width: 25px;
   height: 25px;
   left: -26px;
-
-  animation: swing 1s ease-in-out infinite;
 }
 
 .section {
@@ -261,6 +258,176 @@
   right: clamp(0.625rem, 1.408vw + 0.295rem, 1.563rem);
 }
 
+.section__about {
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+  padding: 25px;
+  border: 2px solid var(--Themes-mainColor, #000);
+}
+
+.card__like-section {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/*Кнопка с сердечком*/
+.card__icon-button {
+  width: 37px;
+  height: 34px;
+  border: none;
+  background-color: var(--Themes-background, #fff);
+  display: flex;
+  transition: outline 0.3s ease;
+}
+
+.like-icon {
+  width: 100%;
+  height: 100%;
+}
+
+/*focus*/
+.card__icon-button:focus {
+  border: none;
+}
+
+.card__icon-button:focus-visible {
+  outline: 2px solid var(--Themes-mainColor, #000);
+}
+
+/*hover*/
+.card__icon-button:hover .heart__core {
+  opacity: 1;
+  transition: opacity 0.3s linear;
+}
+
+.card__icon-button:hover .heart__main-body {
+  opacity: 1;
+  transition: opacity 0.5s linear;
+  transition-delay: 0.05s;
+}
+
+/*active*/
+.card__icon-button:active .heart__core {
+  fill: red;
+  transition: fill 0.3s linear;
+}
+
+.card__icon-button:active .heart__main-body {
+  fill: red;
+  transition: fill 0.3s linear;
+  transition-delay: 0.05s;
+}
+
+/*Click animation*/
+/*Вспышка и увеличение в медиазапросе ниже*/
+
+/*Ядро*/
+.like-icon.is-liked .heart__core {
+  fill: red;
+  opacity: 1;
+  transition: fill 0.3s linear;
+}
+
+/*Тело*/
+.like-icon.is-liked .heart__main-body {
+  opacity: 1;
+  fill: red;
+  transition: fill 0.3s linear;
+  transition-delay: 0.05s;
+}
+
+/*Контур*/
+.like-icon.is-liked .heart__contour {
+  opacity: 1;
+  fill: red;
+  transition: fill 0.3s linear;
+  transition-delay: 0.05s;
+}
+
+/*Переменные внутри svg файла*/
+.heart__contour {
+  fill: var(--Themes-mainColor);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.heart__main-body {
+  fill: var(--Themes-mainColor);
+  opacity: 0;
+  transition: opacity 0.3s linear;
+}
+
+.heart__core {
+  fill: var(--Themes-mainColor);
+  opacity: 0;
+  transition: opacity 0.5s linear;
+  transition-delay: 0.03s;
+}
+
+.heart__sparks {
+  fill: red;
+  opacity: 0;
+}
+
+/*Кнопка Like справа от сердечка*/
+.card__like-button {
+  width: 130px;
+  height: 38px;
+
+  border: 2px solid var(--Themes-mainColor, #000);
+
+  background: var(--Themes-background);
+
+  position: relative;
+
+  transition: box-shadow 0.3s ease;
+}
+
+.button__text {
+  position: relative;
+  font-family: var(--header-font);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--Themes-mainColor);
+}
+
+.card__like-button:focus {
+  outline: none;
+}
+
+.card__like-button:focus-visible {
+  box-shadow: 2px 2px 0px 0px var(--Themes-mainColor);
+}
+
+/*Заполнение*/
+.card__like-button::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+
+  background-color: var(--Themes-mainColor);
+  transform-origin: 0%;
+  transform: scaleX(0);
+
+  transition: transform 0.3s ease;
+}
+
+.card__like-button:hover::before {
+  transform: scaleX(1); /* При ховере масштабировать до 1 */
+}
+
+.card__like-button:hover .button__text {
+  color: var(--Themes-background);
+}
+
+/*Уникализация секций*/
 section:nth-child(1) .section__article::before {
   content: "</html>";
   text-transform: uppercase;
@@ -310,86 +477,6 @@ section:nth-child(8) .section__article .section__image {
   filter: blur(0.1rem) hue-rotate(90deg) brightness(150%) contrast(40%);
 }
 
-.section__about {
-  display: flex;
-  flex-direction: column;
-  gap: 27px;
-  padding: 25px;
-  border: 2px solid var(--Themes-mainColor, #000);
-}
-
-.card__like-section {
-  margin-left: auto;
-  display: flex;
-}
-
-.card__icon-button {
-  width: 39px;
-  height: 38px;
-  border: none;
-  background-color: var(--Themes-background, #fff);
-  display: flex;
-  justify-items: left;
-}
-
-.like-icon {
-  width: 100%;
-  height: 100%;
-}
-
-.card__like-button {
-  width: 130px;
-  height: 38px;
-
-  border: 2px solid var(--Themes-mainColor, #000);
-
-  background: var(--Themes-background);
-
-  position: relative;
-}
-
-.button__text {
-  position: relative;
-  font-family: var(--header-font);
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--Themes-mainColor);
-}
-
-.card__like-button:focus {
-  outline: none;
-}
-
-.card__like-button:focus-visible {
-  box-shadow: 2px 2px 0px 0px var(--Themes-mainColor);
-  transition: box-shadow 0.3s ease;
-}
-
-/*Заполнение*/
-.card__like-button::before {
-  content: "";
-
-  position: absolute;
-  top: 0;
-  bottom: 0px;
-  left: 0;
-  right: 0;
-
-  background-color: var(--Themes-mainColor);
-  transform-origin: 0%;
-  transform: scaleX(0);
-}
-
-.card__like-button:hover::before {
-  transform: scaleX(1); /* При ховере масштабировать до 1 */
-  transition: transform 0.3s ease;
-}
-
-.card__like-button:hover .button__text {
-  color: var(--Themes-background);
-  transition: color 0.3s ease;
-}
-
 /*Подвал*/
 .footer {
   display: flex;
@@ -412,7 +499,7 @@ section:nth-child(8) .section__article .section__image {
   flex-wrap: wrap;
   align-items: center;
   gap: 10px;
-  padding:13px;
+  padding: 13px;
 
   width: clamp(19.125rem, 3.099vw + 18.399rem, 21.188rem);
 
@@ -428,7 +515,6 @@ section:nth-child(8) .section__article .section__image {
 
 .footer__button:focus-visible {
   box-shadow: 2px 2px 0px 0px var(--Themes-mainColor);
-  transition: box-shadow 0.3s ease;
 }
 
 /*Заполнение*/
@@ -444,6 +530,7 @@ section:nth-child(8) .section__article .section__image {
   background-color: var(--Themes-mainColor);
   transform-origin: 0%;
   transform: scaleX(0);
+  transition: transform 0.3s ease;
 }
 
 .footer__button:hover::before {
@@ -462,7 +549,7 @@ section:nth-child(8) .section__article .section__image {
   position: relative;
 }
 
-.dialog{
+.dialog {
   width: clamp(21.313rem, 1.502vw + 20.96rem, 22.313rem);
   height: 193px;
 
@@ -477,20 +564,20 @@ section:nth-child(8) .section__article .section__image {
   padding: 30px;
 }
 
-.dialog__about{
+.dialog__about {
   display: flex;
-  gap:20px;
+  gap: 20px;
   align-items: center;
 }
 
-.dialog__about-text{
+.dialog__about-text {
   line-height: 150%;
 }
 
-.dialog[open]{
+.dialog[open] {
   display: flex;
   flex-direction: column;
-  gap:30px;
+  gap: 30px;
 }
 
 dialog::backdrop {
@@ -498,24 +585,25 @@ dialog::backdrop {
   backdrop-filter: blur(7px);
 }
 
-.dialog__floppy{
+.dialog__floppy {
   height: 39px;
   width: 39px;
   flex-shrink: 0;
 
-  fill:var(--Themes-mainColor);
+  fill: var(--Themes-mainColor);
 }
 
-.dialog__button{
+.dialog__button {
   border: 2px solid var(--Themes-mainColor, #000);
   width: clamp(16.063rem, 3.38vw + 15.27rem, 18.313rem);
   background-color: var(--Themes-background);
   height: 40px;
 
+  text-transform: inherit;
   position: relative;
 }
 
-.dialog__button::before{
+.dialog__button::before {
   content: "";
 
   position: absolute;
@@ -527,11 +615,12 @@ dialog::backdrop {
   background-color: var(--Themes-mainColor);
   transform-origin: 0%;
   transform: scaleX(0);
+
+  transition: transform 0.3s ease;
 }
 
 .dialog__button:hover::before {
   transform: scaleX(1); /* При ховере масштабировать до 1 */
-  transition: transform 0.3s ease;
 }
 
 .dialog__button:hover .button__text {
@@ -549,14 +638,33 @@ dialog::backdrop {
 }
 
 @media screen and (max-width: 1181px) {
-  .footer__floppy{
+  .footer__floppy {
     width: 28px;
     height: 28px;
   }
 
-  .dialog{
-    height: 195px;
-    padding: 30px 40px;
+  .dialog {
+    padding-left: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /*Качающаяся стрелка у выбранной темы*/
+  .theme-menu__button:disabled::after {
+    animation: swing 1s ease-in-out infinite;
   }
 
+  /*Масшатибрование сердца*/
+  .like-icon.is-liked {
+    animation: scaleHeart 0.3s ease-in;
+    animation-delay: 0.2s;
+  }
+
+  /*Вспышка искр*/
+  .like-icon.is-liked .heart__sparks {
+    fill: red;
+    opacity: 0;
+    animation: sparkFlash 0.3s ease-in;
+    animation-delay: 0.3s;
+  }
 }
