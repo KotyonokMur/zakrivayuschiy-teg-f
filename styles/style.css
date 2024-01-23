@@ -14,31 +14,45 @@
 .page {
   min-inline-size: 320px;
   min-block-size: 100dvb;
-  background-color: var(--Themes-background,#fff);
+  background-color: var(--Themes-background, #fff);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   align-items: center;
 
-  background: repeating-linear-gradient(
-    to bottom,
-    var(--gradient-grid) 0px,
-    var(--gradient-grid) 2px,
-    transparent 2px,
-    transparent 4px
-  ),
-  repeating-linear-gradient(
-    to right,
-    var(--gradient-grid) 0px,
-    var(--gradient-grid) 2px,
-    transparent 2px,
-    transparent 4px
-  ),
-  linear-gradient(
+  background: linear-gradient(
     to bottom,
     var(--gradient-first) 0%,
     var(--gradient-second) 100%
   );
+
+  position: relative;
+  padding-bottom: clamp(6.375rem, 0.282vw + 6.309rem, 6.563rem);
+}
+
+.page::before {
+  position: absolute;
+  z-index: -1;
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  background: repeating-linear-gradient(
+      to bottom,
+      var(--gradient-grid) 0px,
+      var(--gradient-grid) 2px,
+      transparent 2px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      to right,
+      var(--gradient-grid) 0px,
+      var(--gradient-grid) 2px,
+      transparent 2px,
+      transparent 4px
+    );
 }
 
 .header {
@@ -54,12 +68,11 @@
   gap: 20px;
 
   border: 2px solid var(--Themes-mainColor, #000);
-
-  height: clamp(20.438rem, 3.756vw + 19.557rem, 22.938rem);
   width: clamp(23.438rem, 30.516vw + 16.285rem, 43.75rem);
 
   margin-top: 100px;
   margin-bottom: 100px;
+  padding-bottom: 25px;
 }
 
 .header__title {
@@ -86,12 +99,37 @@
   left: 10px;
 }
 
+/*Анимация покачивания стрелки в медиазапросе ниже(Пользовательские приоритеты)*/
 .theme-menu__button {
   background-color: inherit;
   border: none;
   text-transform: uppercase;
   position: relative; /*Для замены слов и подчеркивающей линии*/
   transition: opacity 0.3s ease;
+}
+
+.theme-menu__button:hover::before {
+  transform: scaleX(1);
+  opacity: 0.6;
+}
+
+.theme-menu__button:focus-visible:before {
+  transform: scaleX(1);
+  opacity: 0.6;
+}
+
+/*Постепенная прозрачность текста*/
+.theme-menu__button:hover {
+  opacity: 0.6;
+}
+
+/*При состоянии focus написать "Хорошо" "*/
+.theme-menu__button:focus {
+  outline: none;
+}
+
+.theme-menu__button:focus-visible {
+  opacity: 0.6;
 }
 
 /*Подчеркивающая линия*/
@@ -121,7 +159,7 @@
   width: 25px;
   height: 25px;
   left: -26px;
-  top:0;
+  top: 0;
 }
 
 .section {
@@ -140,14 +178,14 @@
 
 .section__title {
   padding: 5px 24px 5px 10px;
-  font-size: 18px; 
-  border: 2px solid var(--Themes-mainColor, #000); 
-  background-color: var(--Themes-background); 
-  font-variation-settings: 'wght' var(--title-FW);
+  font-size: 18px;
+  border: 2px solid var(--Themes-mainColor, #000);
+  background-color: var(--Themes-background);
+  font-variation-settings: "wght" var(--title-FW);
 }
 
 .section__text {
-  font-variation-settings: 'wght' var(--text-FW);
+  font-variation-settings: "wght" var(--text-FW);
 }
 
 /*Карточка с картинкой*/
@@ -256,6 +294,54 @@ article:nth-child(8) .section__intro .section__image {
   gap: 5px;
 }
 
+/*Все основные кнопки на странице*/
+.button-style {
+  border: 2px solid var(--Themes-mainColor, #000);
+  background: var(--Themes-background);
+  position: relative;
+  transition: box-shadow 0.3s ease;
+}
+
+.button-style:focus {
+  outline: none;
+}
+
+.button-style:focus-visible {
+  box-shadow: 2px 2px 0px 0px var(--Themes-mainColor);
+}
+
+.button-style::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+
+  background-color: var(--Themes-mainColor);
+  transform-origin: 0%;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.button-style:hover::before {
+  transform: scaleX(1);
+}
+
+.button-style:hover .button__text {
+  color: var(--Themes-background);
+}
+
+.floppy {
+  transition: fill 0.1s ease;
+}
+
+.button-style:hover .floppy {
+  fill: var(--Themes-background);
+  position: relative;
+}
+
 /*Кнопка с сердечком*/
 .card__icon-button {
   width: 37px;
@@ -266,34 +352,18 @@ article:nth-child(8) .section__intro .section__image {
   transition: outline 0.3s ease;
 }
 
+/*focus*/
+.card__icon-button:focus {
+  border: none;
+}
+
+.card__icon-button:focus-visible {
+  outline: 2px solid var(--Themes-mainColor, #000);
+}
+
 .like-icon {
   width: 100%;
   height: 100%;
-}
-
-/*Переменные внутри svg файла*/
-.heart__contour {
-  fill: var(--Themes-mainColor);
-  opacity: 1;
-  transition: opacity 0.1s linear;
-}
-
-.heart__main-body {
-  fill: var(--Themes-mainColor);
-  opacity: 0;
-  transition: opacity 0.3s linear;
-}
-
-.heart__core {
-  fill: var(--Themes-mainColor);
-  opacity: 0;
-  transition: opacity 0.3s linear;
-  transition-delay: 0.03s;
-}
-
-.heart__sparks {
-  fill: red;
-  opacity: 0;
 }
 
 /*Кнопка Like справа от сердечка*/
@@ -304,10 +374,13 @@ article:nth-child(8) .section__intro .section__image {
 
 .button__text {
   position: relative;
+  
   font-family: var(--header-font);
   font-size: 14px;
   font-weight: 400;
   color: var(--Themes-mainColor);
+
+  transition: color 0.3s ease;
 }
 
 /*Секция с кнопкой "Сохранить на память"*/
@@ -315,7 +388,6 @@ article:nth-child(8) .section__intro .section__image {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 50px;
 }
 
 /*Дискета*/
@@ -351,8 +423,6 @@ article:nth-child(8) .section__intro .section__image {
   border: 2px solid var(--Themes-mainColor, #000);
   background-color: var(--Themes-background);
   padding: 30px;
-
-  overflow: hidden;
 }
 
 .dialog__about {
@@ -389,8 +459,13 @@ dialog::backdrop {
   text-transform: inherit;
 }
 
-@supports (-webkit-text-stroke: 1px var(--Themes-background)){
-  .section__intro::before{
+/*Ругается валидатор т.к. text-stroke - нестандартное св-во,
+а с префиксом webkit - всё нормально :) */
+@supports (
+  (-webkit-text-stroke: 1px var(--Themes-background)) or
+    (text-stroke: 1px var(--Themes-background))
+) {
+  .section__intro::before {
     -webkit-text-stroke: 1px var(--Themes-background);
   }
 }
@@ -403,5 +478,12 @@ dialog::backdrop {
 
   .dialog {
     padding-left: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /*Качающаяся стрелка у выбранной темы*/
+  .theme-menu__button:disabled::after {
+    animation: swing 1s ease-in-out infinite;
   }
 }
