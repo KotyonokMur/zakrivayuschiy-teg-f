@@ -40,6 +40,7 @@
       var(--gradient-second) 100%
   );
 
+  background-attachment: fixed;
   padding-bottom: clamp(6.375rem, 0.282vw + 6.309rem, 6.563rem);
 }
 
@@ -445,6 +446,15 @@ dialog::backdrop {
   width: clamp(16.063rem, 3.38vw + 15.27rem, 18.313rem);
   height: 40px;
   text-transform: inherit;
+}
+
+/*or text-stroke*/
+@supports(-webkit-text-stroke: 1px var(--Themes-background)) 
+  or (text-stroke: 1px var(--Themes-background)){
+  .section__intro::before {
+    text-shadow: none;
+    -webkit-text-stroke: 1px var(--Themes-background);
+  }
 }
 
 @media screen and (max-width: 1181px) {
